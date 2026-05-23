@@ -94,7 +94,7 @@ function App() {
     setError(null)
 
     try {
-      const data = (await fetchJson(`/api/reports/${date}`)) as { report: DailyReport }
+      const data = (await fetchJson(`/api/report?date=${encodeURIComponent(date)}`)) as { report: DailyReport }
       setReport(data.report)
     } catch (requestError) {
       setError(getErrorMessage(requestError))

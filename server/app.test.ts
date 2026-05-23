@@ -67,6 +67,11 @@ describe('local report API', () => {
       expect(bootstrap.dates).toEqual(['2026-05-23'])
       expect(bootstrap.report.items[0].repo).toBe('owner/repo')
 
+      const selectedReport = (await fetch(`${baseUrl}/api/report?date=2026-05-23`).then((res) =>
+        res.json(),
+      )) as { report: DailyReport }
+      expect(selectedReport.report.items[0].repo).toBe('owner/repo')
+
       const feedbackResponse = await fetch(`${baseUrl}/api/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

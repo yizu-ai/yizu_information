@@ -36,6 +36,20 @@ export function createApp(options: CreateAppOptions = {}) {
     }
   })
 
+  app.get('/api/report', async (request, response, next) => {
+    try {
+      const date = String(request.query.date ?? '')
+      const report = await readReport(date, dataDir)
+      if (!report) {
+        response.status(404).json({ error: 'Report not found' })
+        return
+      }
+      response.json({ report })
+    } catch (error) {
+      next(error)
+    }
+  })
+
   app.get('/api/reports/:date', async (request, response, next) => {
     try {
       const report = await readReport(request.params.date, dataDir)
