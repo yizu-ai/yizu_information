@@ -1,0 +1,184 @@
+{
+  "date": "2026-05-22",
+  "generatedAt": "2026-05-23T02:58:07.878Z",
+  "source": "GitHub Trending",
+  "warnings": [
+    "DeepSeek API Key 未配置，本次使用本地规则生成摘要。"
+  ],
+  "items": [
+    {
+      "repo": "colbymchenry/codegraph",
+      "name": "codegraph",
+      "url": "https://github.com/colbymchenry/codegraph",
+      "description": "Pre-indexed code knowledge graph for Claude Code, Codex, Cursor, OpenCode, and Hermes Agent — fewer tokens, fewer tool calls, 100% local",
+      "language": "TypeScript",
+      "stars": 16756,
+      "todayStars": 3684,
+      "score": 764,
+      "matchedTracks": [
+        "个人 AI 系统",
+        "AIGC 内容工厂",
+        "知识库与效率"
+      ],
+      "feedback": "favorite",
+      "rank": 1,
+      "summary": "Pre-indexed code knowledge graph for Claude Code, Codex, Cursor, OpenCode, and Hermes Agent — fewer tokens, fewer tool calls, 100% local",
+      "relevanceReason": "命中关注主线：个人 AI 系统、AIGC 内容工厂、知识库与效率。"
+    },
+    {
+      "repo": "trimstray/the-book-of-secret-knowledge",
+      "name": "the-book-of-secret-knowledge",
+      "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+      "description": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.",
+      "language": "",
+      "stars": 223248,
+      "todayStars": 969,
+      "score": 493,
+      "matchedTracks": [
+        "个人 AI 系统",
+        "知识库与效率"
+      ],
+      "feedback": null,
+      "rank": 2,
+      "summary": "A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.",
+      "relevanceReason": "命中关注主线：个人 AI 系统、知识库与效率。"
+    },
+    {
+      "repo": "ChromeDevTools/chrome-devtools-mcp",
+      "name": "chrome-devtools-mcp",
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "description": "Chrome DevTools for coding agents",
+      "language": "TypeScript",
+      "stars": 41012,
+      "todayStars": 501,
+      "score": 487,
+      "matchedTracks": [
+        "个人 AI 系统",
+        "AIGC 内容工厂"
+      ],
+      "feedback": null,
+      "rank": 3,
+      "summary": "Chrome DevTools for coding agents",
+      "relevanceReason": "命中关注主线：个人 AI 系统、AIGC 内容工厂。"
+    },
+    {
+      "repo": "Lum1104/Understand-Anything",
+      "name": "Understand-Anything",
+      "url": "https://github.com/Lum1104/Understand-Anything",
+      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
+      "language": "TypeScript",
+      "stars": 18844,
+      "todayStars": 1393,
+      "score": 484,
+      "matchedTracks": [
+        "AIGC 内容工厂",
+        "知识库与效率"
+      ],
+      "feedback": null,
+      "rank": 4,
+      "summary": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
+      "relevanceReason": "命中关注主线：AIGC 内容工厂、知识库与效率。"
+    },
+    {
+      "repo": "can1357/oh-my-pi",
+      "name": "oh-my-pi",
+      "url": "https://github.com/can1357/oh-my-pi",
+      "description": "⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
+      "language": "TypeScript",
+      "stars": 6384,
+      "todayStars": 457,
+      "score": 459,
+      "matchedTracks": [
+        "个人 AI 系统",
+        "AIGC 内容工厂"
+      ],
+      "feedback": null,
+      "rank": 5,
+      "summary": "⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
+      "relevanceReason": "命中关注主线：个人 AI 系统、AIGC 内容工厂。"
+    },
+    {
+      "repo": "ruvnet/RuView",
+      "name": "RuView",
+      "url": "https://github.com/ruvnet/RuView",
+      "description": "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video.",
+      "language": "Rust",
+      "stars": 64090,
+      "todayStars": 978,
+      "score": 388,
+      "matchedTracks": [
+        "AIGC 内容工厂"
+      ],
+      "feedback": null,
+      "rank": 6,
+      "summary": "π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection — all without a single pixel of video.",
+      "relevanceReason": "命中关注主线：AIGC 内容工厂。"
+    },
+    {
+      "repo": "yt-dlp/yt-dlp",
+      "name": "yt-dlp",
+      "url": "https://github.com/yt-dlp/yt-dlp",
+      "description": "A feature-rich command-line audio/video downloader",
+      "language": "Python",
+      "stars": 164399,
+      "todayStars": 444,
+      "score": 364,
+      "matchedTracks": [
+        "AIGC 内容工厂"
+      ],
+      "feedback": null,
+      "rank": 7,
+      "summary": "A feature-rich command-line audio/video downloader",
+      "relevanceReason": "命中关注主线：AIGC 内容工厂。"
+    },
+    {
+      "repo": "dotnet/skills",
+      "name": "skills",
+      "url": "https://github.com/dotnet/skills",
+      "description": "Repository for skills to assist AI coding agents with .NET and C#",
+      "language": "C#",
+      "stars": 2551,
+      "todayStars": 389,
+      "score": 322,
+      "matchedTracks": [
+        "个人 AI 系统"
+      ],
+      "feedback": null,
+      "rank": 8,
+      "summary": "Repository for skills to assist AI coding agents with .NET and C#",
+      "relevanceReason": "命中关注主线：个人 AI 系统。"
+    },
+    {
+      "repo": "Fincept-Corporation/FinceptTerminal",
+      "name": "FinceptTerminal",
+      "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
+      "description": "FinceptTerminal is a modern finance application offering advanced market analytics, investment research, and economic data tools, designed for interactive exploration and data-driven decision-making in a user-friendly environment.",
+      "language": "Python",
+      "stars": 22674,
+      "todayStars": 367,
+      "score": 318,
+      "matchedTracks": [
+        "个人 AI 系统"
+      ],
+      "feedback": null,
+      "rank": 9,
+      "summary": "FinceptTerminal is a modern finance application offering advanced market analytics, investment research, and economic data tools, designed for interactive exploration and data-driven decision-making in a user-friendly environment.",
+      "relevanceReason": "命中关注主线：个人 AI 系统。"
+    },
+    {
+      "repo": "anthropics/claude-plugins-official",
+      "name": "claude-plugins-official",
+      "url": "https://github.com/anthropics/claude-plugins-official",
+      "description": "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
+      "language": "Python",
+      "stars": 25102,
+      "todayStars": 2549,
+      "score": 285,
+      "matchedTracks": [],
+      "feedback": null,
+      "rank": 10,
+      "summary": "Official, Anthropic-managed directory of high quality Claude Code Plugins.",
+      "relevanceReason": "热度较高，但和当前画像的直接关联需要人工判断。"
+    }
+  ]
+}
