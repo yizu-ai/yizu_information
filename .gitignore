@@ -28,3 +28,4 @@ daily-report-*.png
 *.njsproj
 *.sln
 *.sw?
+.vercel
