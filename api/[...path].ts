@@ -9,7 +9,7 @@ const allowedFeedback = new Set(['favorite', 'ignore', 'irrelevant'])
 
 export default async function handler(request, response) {
   try {
-    const route = parseRoute(request.url)
+    const { route, searchParams } = parseRoute(request.url)
     const method = request.method ?? 'GET'
 
     if (method === 'GET' && route[0] === 'bootstrap') {
@@ -22,6 +22,16 @@ export default async function handler(request, response) {
 
     if (method === 'GET' && route[0] === 'reports' && route[1]) {
       const report = await readReport(decodeURIComponent(route[1]))
+      if (!report) {
+        sendJson(response, 404, { error: 'Report not found' })
+        return
+      }
+      sendJson(response, 200, { report })
+      return
+    }
+
+    if (method === 'GET' && route[0] === 'report') {
+      const report = await readReport(searchParams.get('date') ?? '')
       if (!report) {
         sendJson(response, 404, { error: 'Report not found' })
         return
@@ -113,9 +123,12 @@ export default async function handler(request, response) {
 }
 
 function parseRoute(url) {
-  const { pathname } = new URL(url ?? '/', 'http://localhost')
+  const { pathname, searchParams } = new URL(url ?? '/', 'http://localhost')
   const normalized = pathname.replace(/^\/api\/?/, '/')
-  return normalized.split('/').filter(Boolean)
+  return {
+    route: normalized.split('/').filter(Boolean),
+    searchParams,
+  }
 }
 
 async function listReportDates() {
