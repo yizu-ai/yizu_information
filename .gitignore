@@ -15,8 +15,13 @@ dist-ssr
 data/settings.local.json
 data/feedback.json
 data/profile.json
+data/browser-profiles/
+data/source-reports/
 daily-report-*.png
 .playwright-mcp
+tmp/
+tmp-cjs/
+tmp-tsc-node/
 
 # Editor directories and files
 .vscode/*

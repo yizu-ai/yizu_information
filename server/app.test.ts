@@ -5,8 +5,8 @@ import path from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { createApp } from './app'
-import { readFeedback, saveReport } from './storage'
-import type { DailyReport } from './types'
+import { readFeedback, readReport, readSourceReport, saveReport, saveSourceReport } from './storage'
+import type { DailyReport, SourceReport } from './types'
 
 type BootstrapPayload = {
   dates: string[]
@@ -152,6 +152,59 @@ describe('local report API', () => {
 
       expect(favorites.items).toMatchObject([{ repo: 'owner/repo', note: '后续研究它的 Agent 设计', rating: 5 }])
       expect(notes.items).toMatchObject([{ repo: 'owner/repo', note: '后续研究它的 Agent 设计' }])
+    } finally {
+      await new Promise<void>((resolve, reject) => {
+        server.close((error) => (error ? reject(error) : resolve()))
+      })
+    }
+  })
+
+  it('deletes daily and source reports through the API', async () => {
+    tempDir = await mkdtemp(path.join(tmpdir(), 'daily-report-agent-delete-api-'))
+    const report: DailyReport = {
+      date: '2026-05-24',
+      generatedAt: '2026-05-24T10:00:00+08:00',
+      source: 'GitHub Trending',
+      warnings: [],
+      items: [],
+    }
+    const sourceReport: SourceReport = {
+      sourceKey: 'wechat',
+      date: '2026-05-24',
+      generatedAt: '2026-05-24T10:00:00+08:00',
+      warnings: [],
+      items: [],
+    }
+    const githubSourceReport: SourceReport = {
+      sourceKey: 'github',
+      date: '2026-05-24',
+      generatedAt: '2026-05-24T10:00:00+08:00',
+      warnings: [],
+      items: [],
+    }
+    await saveReport(report, tempDir)
+    await saveSourceReport(sourceReport, tempDir)
+    await saveSourceReport(githubSourceReport, tempDir)
+
+    const app = createApp({ dataDir: tempDir })
+    const server = app.listen(0)
+    const address = server.address()
+    if (!address || typeof address === 'string') {
+      throw new Error('Expected a local test port')
+    }
+
+    try {
+      const baseUrl = `http://127.0.0.1:${address.port}`
+      const deleteReportResponse = await fetch(`${baseUrl}/api/report?date=2026-05-24`, { method: 'DELETE' })
+      const deleteSourceResponse = await fetch(`${baseUrl}/api/source-report?source=wechat&date=2026-05-24`, {
+        method: 'DELETE',
+      })
+
+      expect(deleteReportResponse.status).toBe(200)
+      expect(deleteSourceResponse.status).toBe(200)
+      await expect(readReport('2026-05-24', tempDir)).resolves.toBeNull()
+      await expect(readSourceReport('github', '2026-05-24', tempDir)).resolves.toBeNull()
+      await expect(readSourceReport('wechat', '2026-05-24', tempDir)).resolves.toBeNull()
     } finally {
       await new Promise<void>((resolve, reject) => {
         server.close((error) => (error ? reject(error) : resolve()))

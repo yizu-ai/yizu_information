@@ -1,4 +1,4 @@
-import { rankProjects } from './reportEngine'
+import { rankProjects, scoreProject } from './reportEngine'
 import type { DailyReport, FeedbackMap, RankedProject, TrendingProject, UserProfile } from './types'
 
 export type ProjectSummary = {
@@ -19,8 +19,16 @@ type BuildReportInput = {
   warnings?: string[]
 }
 
+const dailyTrendingProjectLimit = 20
+
 export async function buildReport(input: BuildReportInput): Promise<DailyReport> {
-  const ranked = rankProjects(input.projects, input.profile, input.feedback, 10).map((item, index) => ({
+  const dailyTopProjects = input.projects.slice(0, dailyTrendingProjectLimit)
+  const visibleRanked = rankProjects(dailyTopProjects, input.profile, input.feedback, dailyTrendingProjectLimit)
+  const visibleRepos = new Set(visibleRanked.map((item) => item.repo))
+  const hiddenTopProjects = dailyTopProjects
+    .filter((project) => !visibleRepos.has(project.repo))
+    .map((project) => scoreProject(project, input.profile, input.feedback))
+  const ranked = [...visibleRanked, ...hiddenTopProjects].slice(0, dailyTrendingProjectLimit).map((item, index) => ({
     ...item,
     rank: index + 1,
   }))
@@ -34,13 +42,14 @@ export async function buildReport(input: BuildReportInput): Promise<DailyReport>
     warnings: input.warnings ?? [],
     items: ranked.map((item) => {
       const summary = summaryByRepo.get(item.repo)
+      const brief = normalizeProjectBrief(summary?.brief ?? fallbackBrief(item))
       return {
         ...item,
         nameZh: summary?.nameZh ?? fallbackNameZh(item),
-        brief: summary?.brief ?? fallbackBrief(item),
+        brief,
         useAdvice: summary?.useAdvice ?? fallbackUseAdvice(item),
-        summary: summary?.brief ?? fallbackBrief(item),
-        purpose: summary?.brief ?? fallbackBrief(item),
+        summary: brief,
+        purpose: brief,
         relevanceReason: summary?.useAdvice ?? fallbackUseAdvice(item),
       }
     }),
@@ -74,11 +83,7 @@ function fallbackNameZh(item: RankedProject): string {
 }
 
 function fallbackBrief(item: RankedProject): string {
-  const track = item.matchedTracks[0]
-  if (item.description) {
-    return translateDescriptionHint(item.description, track)
-  }
-  return fallbackByTrack(track)
+  return buildOrderedProjectSummary(item)
 }
 
 function fallbackUseAdvice(item: RankedProject): string {
@@ -98,38 +103,98 @@ function fallbackUseAdvice(item: RankedProject): string {
   return '建议：先快速浏览 README 和示例，判断它是否能直接服务你的 AI 编程或内容生产流程。'
 }
 
-function translateDescriptionHint(description: string, track?: string): string {
-  const lower = description.toLowerCase()
-  if (lower.includes('memory')) {
-    return '提供记忆管理或上下文沉淀能力，适合评估能否接入你的个人 AI 系统。'
+function normalizeProjectBrief(brief: string): string {
+  const trimmed = brief.trim()
+  if (/^\s*1[.、]/.test(trimmed)) {
+    return trimmed
   }
-  if (lower.includes('knowledge graph')) {
-    return '把代码或资料整理成可检索、可提问的知识图谱，适合做项目理解和知识沉淀。'
-  }
-  if (lower.includes('agent')) {
-    return '围绕 AI Agent 的开发、执行或协作流程提供工具能力，适合拿来验证自动化工作流。'
-  }
-  if (lower.includes('video')) {
-    return '提供视频处理或内容生产相关能力，适合评估是否能进入 AIGC 内容流水线。'
-  }
-  if (lower.includes('workflow') || lower.includes('automation')) {
-    return '用于组织和自动化重复流程，适合减少手工操作并沉淀成可复用 SOP。'
-  }
-  return fallbackByTrack(track)
+  return formatOrderedSummary([trimmed])
 }
 
-function fallbackByTrack(track?: string): string {
-  if (track === '个人 AI 系统') {
-    return '提供 AI Agent、工具调用或记忆管理相关能力，适合评估能否接入个人 AI 系统。'
+function buildOrderedProjectSummary(item: RankedProject): string {
+  const points = [
+    summarizeDescriptionPoint(item),
+    ...extractReadmePoints(item.readmeExcerpt ?? '').slice(0, 2),
+    buildProjectSignalPoint(item),
+  ]
+  return formatOrderedSummary(uniquePoints(points).slice(0, 3))
+}
+
+function summarizeDescriptionPoint(item: RankedProject): string {
+  const description = cleanSummaryText(item.description)
+  if (!description) {
+    return `${item.name} 是 GitHub Trending 当日前 20 的开源项目，建议先看 README 判断用途。`
   }
-  if (track === 'AIGC 内容工厂') {
-    return '提供内容创作、脚本、视频或自动化生产相关能力，适合评估能否提升内容工厂效率。'
+
+  const lower = description.toLowerCase()
+  const hints: string[] = []
+  if (lower.includes('memory')) {
+    hints.push('重点关注记忆管理和上下文沉淀')
   }
-  if (track === '海外平台运营') {
-    return '提供增长、分析或平台运营相关能力，适合评估能否辅助海外内容项目。'
+  if (lower.includes('agent')) {
+    hints.push('重点关注 Agent 工作流')
   }
-  if (track === '知识库与效率') {
-    return '提供知识整理、资料管理或效率提升能力，适合评估能否沉淀到个人知识库。'
+  if (lower.includes('knowledge graph')) {
+    hints.push('重点关注知识图谱和项目理解')
   }
-  return '提供一个可观察的开源能力样本，适合快速判断是否值得继续研究。'
+  if (lower.includes('video') || lower.includes('presentation') || lower.includes('creator')) {
+    hints.push('重点关注内容生产效率')
+  }
+
+  return hints.length > 0 ? `项目定位：${description}，${hints.join('、')}。` : `项目定位：${description}。`
+}
+
+function extractReadmePoints(readmeExcerpt: string): string[] {
+  const cleaned = cleanSummaryText(readmeExcerpt)
+  if (!cleaned) {
+    return []
+  }
+
+  return cleaned
+    .split(/(?<=[.!?。！？])\s+/)
+    .map((sentence) => sentence.replace(/[.!?。！？]+$/g, '').trim())
+    .filter((sentence) => sentence.length >= 18)
+    .filter((sentence) => !/^English\b|^Docs\b|^Website\b/i.test(sentence))
+    .slice(0, 4)
+    .map((sentence) => `README 重点：${sentence}。`)
+}
+
+function buildProjectSignalPoint(item: RankedProject): string {
+  const signals = [
+    item.language ? `主要语言 ${item.language}` : '',
+    item.topics?.length ? `相关标签 ${item.topics.slice(0, 4).join('、')}` : '',
+    item.todayStars ? `当日新增 ${item.todayStars} stars` : '',
+  ].filter(Boolean)
+
+  return signals.length > 0
+    ? `评估线索：${signals.join('，')}。`
+    : '评估线索：先看 README、示例和最近提交，判断是否值得深入阅读。'
+}
+
+function cleanSummaryText(text: string): string {
+  return text
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/[|*_#>`]+/g, '')
+    .trim()
+}
+
+function uniquePoints(points: string[]): string[] {
+  const seen = new Set<string>()
+  return points.filter((point) => {
+    const normalized = point.toLowerCase().replace(/\W+/g, '').slice(0, 80)
+    if (!normalized || seen.has(normalized)) {
+      return false
+    }
+    seen.add(normalized)
+    return true
+  })
+}
+
+function formatOrderedSummary(points: string[]): string {
+  const validPoints = points.map((point) => point.trim()).filter(Boolean)
+  if (validPoints.length === 0) {
+    return '1. 暂无可提取的项目重点。'
+  }
+  return validPoints.map((point, index) => `${index + 1}. ${point.replace(/^\d+[.、]\s*/, '')}`).join('\n')
 }
