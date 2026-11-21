@@ -1,3 +1,4 @@
+// 前端首屏文案回归测试：确保主页面保留信息池标题并移除多余装饰块
 import { readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'

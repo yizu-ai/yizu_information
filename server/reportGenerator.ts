@@ -1,3 +1,4 @@
+// 日报构建与本地降级摘要模块：整合项目排序结果与摘要输出，无模型配置时自动回退至本地规则摘要
 import { rankProjects, scoreProject } from './reportEngine'
 import type { DailyReport, FeedbackMap, RankedProject, TrendingProject, UserProfile } from './types'
 
@@ -21,6 +22,7 @@ type BuildReportInput = {
 
 const dailyTrendingProjectLimit = 20
 
+// 构建指定日期的 GitHub Trending 日报（最多保留当日 Top 20 项目）
 export async function buildReport(input: BuildReportInput): Promise<DailyReport> {
   const dailyTopProjects = input.projects.slice(0, dailyTrendingProjectLimit)
   const visibleRanked = rankProjects(dailyTopProjects, input.profile, input.feedback, dailyTrendingProjectLimit)
@@ -56,6 +58,7 @@ export async function buildReport(input: BuildReportInput): Promise<DailyReport>
   }
 }
 
+// 本地规则摘要生成器：当未配置外部大模型 API 时，基于项目描述与 README 摘录生成结构化要点
 export async function summarizeLocally(items: RankedProject[]): Promise<ProjectSummary[]> {
   return items.map((item) => ({
     repo: item.repo,

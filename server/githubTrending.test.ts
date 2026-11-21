@@ -1,3 +1,4 @@
+// GitHub Trending 解析单元测试：验证 HTML 榜单解析与 README Markdown 纯文本提炼逻辑
 import { describe, expect, it } from 'vitest'
 
 import { extractReadmeExcerpt, parseTrendingHtml } from './githubTrending'

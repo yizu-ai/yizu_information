@@ -1,3 +1,4 @@
+// 微信公众号信息源采集器：通过极致了 API 查询当日发文、临时读取正文生成摘要并估算接口费用
 import { createHash } from 'node:crypto'
 
 import { load } from 'cheerio'
@@ -431,6 +432,7 @@ function formatDajialaError(error: unknown): string {
   return redactSensitiveText(error instanceof Error ? error.message : '未知错误')
 }
 
+// 对错误消息中的 API Key 或 Token 进行脱敏，防止凭据泄露至日志或前端
 function redactSensitiveText(value: string): string {
   return value
     .replace(/(当前输入key值为\s*)\S+/gi, '$1[已隐藏]')

@@ -1,3 +1,4 @@
+// 本地文件存储层：管理日报、多源报告、用户反馈/笔记/评分及本地敏感配置的读写（兼容 Vercel /tmp 目录）
 import { copyFile, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -153,6 +154,7 @@ export async function readRawSourceSettings(baseDir = dataRoot): Promise<SourceS
   return mergeSourceSettings(localSettings.sources)
 }
 
+// 读取脱敏后的多源采集配置（隐藏 API Key 与 Token 明文）
 export async function readSourceSettings(baseDir = dataRoot): Promise<PublicSourceSettings> {
   const settings = await readRawSourceSettings(baseDir)
   return {
@@ -211,6 +213,7 @@ export async function writeFeedback(baseDir: string, feedback: FeedbackMap): Pro
   await writeJson(path.join(baseDir, 'feedback.json'), feedback)
 }
 
+// 写入或更新指定条目的反馈状态（收藏/忽略/不相关）
 export async function upsertFeedback(
   repo: string,
   value: FeedbackMap[string] | null,
@@ -379,6 +382,7 @@ export async function listCollectedSourceItemIds(sourceKey: SourceKey, baseDir =
   return ids
 }
 
+// 汇总所有历史 GitHub 日报与多源报告中已收藏的条目，按评分降序排列
 export async function listFavoriteItems(baseDir = dataRoot): Promise<RankedProject[]> {
   const feedback = await readFeedback(baseDir)
   const reports = new Map((await readAllReportItems(baseDir)).map((item) => [item.repo, item]))

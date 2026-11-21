@@ -1,3 +1,4 @@
+// 浏览器网页抽取工具：基于 Playwright 持久化上下文支持交互式扫码登录、滚动抓取链接与正文抽取
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 

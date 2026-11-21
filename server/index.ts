@@ -1,3 +1,4 @@
+// 本地开发与运行入口：挂载 Express API 与 Vite 开发中间件并监听服务端口
 import 'dotenv/config'
 
 import { createServer as createViteServer } from 'vite'

@@ -1,7 +1,9 @@
+// X（Twitter）信息源采集器：按主题关键词检索近期原创推文、按点赞筛选并生成摘要
 import { readRawSourceSettings } from './storage'
 import { summarizeSourceItems } from './sourceSummarizer'
 import type { SourceCollector, SourceItem, XPost, XSelectedPost, XTopicSearchResult } from './types'
 
+// 按每日总量上限与单主题上限，过滤转推和回复并按点赞数降序挑选推文
 export function selectTopXPostsByTopic(
   topics: XTopicSearchResult[],
   options: { dailyLimit: number; perTopicLimit: number },

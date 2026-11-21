@@ -1,3 +1,4 @@
+// Express 后端应用工厂：提供日报、多源采集、收藏、笔记、评分与系统配置等 REST API
 import express from 'express'
 
 import { collectSources, createDefaultCollectors } from './sourceCollector'
@@ -28,6 +29,7 @@ type CreateAppOptions = {
 const allowedFeedback = new Set<FeedbackValue>(['favorite', 'ignore', 'irrelevant'])
 const allowedSources = new Set<SourceKey>(['shengcai', 'wechat', 'x', 'github'])
 
+// 创建并配置 Express 应用实例，支持注入自定义数据目录（便于测试隔离）
 export function createApp(options: CreateAppOptions = {}) {
   const app = express()
   const dataDir = options.dataDir
@@ -292,6 +294,7 @@ export function createApp(options: CreateAppOptions = {}) {
   return app
 }
 
+// 校验并解析信息源标识
 function parseSource(value: unknown): SourceKey | null {
   const source = String(value ?? '') as SourceKey
   return allowedSources.has(source) ? source : null

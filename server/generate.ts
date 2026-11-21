@@ -1,3 +1,4 @@
+// CLI 日报生成脚本：抓取 GitHub Trending、补全仓库详情并调用大模型或本地规则生成指定日期的日报
 import 'dotenv/config'
 
 import { summarizeWithProvider } from './deepseek'

@@ -1,3 +1,4 @@
+// 多信息源采集调度器：按顺序执行生财有术、微信公众号、GitHub 与 X 的采集，支持当日幂等跳过与增量时间追踪
 import { buildReport, summarizeLocally, type ProjectSummary } from './reportGenerator'
 import { enrichRepositoryDetails, fetchTrendingProjects } from './githubTrending'
 import { collectShengcaiSource } from './shengcaiSource'
@@ -130,6 +131,7 @@ export function createDefaultCollectors(): Record<SourceKey, SourceCollector> {
   }
 }
 
+// 判断当日已有报告是否满足完整度与配置指纹要求，满足则跳过重复采集
 function shouldSkipExistingReport(report: SourceReport, settings: Awaited<ReturnType<typeof readRawSourceSettings>>): boolean {
   if (report.items.length === 0) {
     if (report.emptyReason !== 'no_updates') {

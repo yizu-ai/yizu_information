@@ -1,3 +1,4 @@
+// 通用徽章标签组件（shadcn/ui）：支持多种视觉变体与 asChild 槽位渲染
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"

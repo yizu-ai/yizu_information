@@ -1,3 +1,4 @@
+// 多源配置与报告存储单元测试：验证开关持久化、密钥脱敏校验与按日期删除行为
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

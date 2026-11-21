@@ -1,3 +1,4 @@
+// 生财有术信息源单元测试：验证未采集链接筛选、数量截断与稳定去重 ID 生成
 import { describe, expect, it } from 'vitest'
 
 import { selectUnseenEssenceLinks, stableItemId } from './shengcaiSource'

@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// Vercel Serverless 统一 API 路由入口：提供日报查询/删除、信息源配置、收藏、笔记、评分与模型设置等接口
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -35,6 +36,7 @@ const defaultSourceSettings = {
   },
 }
 
+// 主请求分发器：按 HTTP 方法与路径路由至各业务处理分支
 export default async function handler(request, response) {
   try {
     const { route, searchParams } = parseRoute(request.url)
@@ -228,6 +230,7 @@ export default async function handler(request, response) {
   }
 }
 
+// 解析请求路径与查询参数，剥离 /api 前缀
 function parseRoute(url) {
   const { pathname, searchParams } = new URL(url ?? '/', 'http://localhost')
   const normalized = pathname.replace(/^\/api\/?/, '/')
@@ -246,6 +249,7 @@ function isReportDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value)
 }
 
+// 列出所有未删除的 GitHub 日报日期（按日期倒序）
 async function listReportDates() {
   await ensureRuntimeDataDir()
   const deletedDates = await readDeletedReportDates()
@@ -347,6 +351,7 @@ function sourceReportPath(source, date) {
   return path.join(runtimeDataRoot, 'source-reports', source, `${date}.json`)
 }
 
+// 读取收藏列表并关联历史日报中的条目详情
 async function listFavoriteItems() {
   const feedback = await readFeedback()
   const reports = new Map((await readAllReportItems()).map((item) => [item.repo, item]))
@@ -439,6 +444,7 @@ async function readFeedback() {
   }
 }
 
+// 更新或清除指定条目的反馈状态（收藏/忽略/不相关）
 async function upsertFeedback(repo, value) {
   const feedback = await readFeedback()
   if (value === null) {
@@ -556,6 +562,7 @@ async function readRawSourceSettings() {
   return mergeSourceSettings(localSettings.sources)
 }
 
+// 读取脱敏后的多源采集配置（不直接返回密钥明文）
 async function readSourceSettings() {
   const settings = await readRawSourceSettings()
   return {

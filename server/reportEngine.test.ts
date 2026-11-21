@@ -1,3 +1,4 @@
+// 项目排序与反馈合并引擎单元测试：验证收藏加权、忽略过滤与反馈/笔记回填
 import { describe, expect, it } from 'vitest'
 
 import { applyFeedback, rankProjects } from './reportEngine'

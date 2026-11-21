@@ -1,3 +1,4 @@
+// 通用提示框组件（shadcn/ui）：提供默认与警示样式的 Alert、AlertTitle、AlertDescription 与 AlertAction
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

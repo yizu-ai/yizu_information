@@ -1,3 +1,4 @@
+// ESLint 扁平配置：覆盖 TypeScript、React Hooks 与 Vite Fast Refresh 校验规则
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'

@@ -1,3 +1,4 @@
+// 微信公众号采集器单元测试：验证文章链接归一化、极致了接口解析、无更新处理与错误密钥脱敏
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

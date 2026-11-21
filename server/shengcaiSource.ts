@@ -1,3 +1,4 @@
+// 生财有术信息源采集器：通过持久化浏览器上下文拦截官网精华帖接口、去重并调用大模型生成摘要
 import { mkdir } from 'node:fs/promises'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
@@ -85,6 +86,7 @@ export const collectShengcaiSource: SourceCollector = async ({ date, dataDir, la
   }
 }
 
+// 启动 Playwright 持久化浏览器并监听 searchTopic 接口，提取去重后的精华帖列表
 async function extractShengcaiEssenceTopics(input: { url: string; profileDir: string }): Promise<ShengcaiTopic[]> {
   await mkdir(path.resolve(input.profileDir), { recursive: true })
   const context = await chromium.launchPersistentContext(path.resolve(input.profileDir), {

@@ -1,3 +1,4 @@
+// 多源摘要解析单元测试：验证模型输出夹杂解释文本时的 JSON 提取容错能力
 import { describe, expect, it } from 'vitest'
 
 import { parseSummaryItems } from './sourceSummarizer'

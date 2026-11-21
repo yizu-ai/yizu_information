@@ -1,3 +1,4 @@
+// 服务端核心领域类型定义：涵盖信息源、日报结构、用户反馈、采集结果与系统设置
 export type SourceKey = 'shengcai' | 'wechat' | 'x' | 'github'
 
 export type FeedbackValue = 'favorite' | 'ignore' | 'irrelevant'

@@ -1,3 +1,4 @@
+// 本地 Express API 集成测试：覆盖日报日期查询、反馈保存以及日报/多源报告删除接口
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

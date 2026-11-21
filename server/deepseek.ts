@@ -1,3 +1,4 @@
+// 大模型摘要客户端：调用兼容 OpenAI Chat Completions 的接口，为 GitHub 项目生成中文名称、简介与使用建议
 import type { ProjectSummary } from './reportGenerator'
 import type { ApiSettings, RankedProject, UserProfile } from './types'
 
@@ -9,6 +10,7 @@ type DeepSeekResponse = {
   }>
 }
 
+// 批量请求大模型生成结构化 JSON 摘要，并过滤非输入列表中的仓库
 export async function summarizeWithProvider(
   items: RankedProject[],
   profile: UserProfile,
@@ -93,6 +95,7 @@ export async function summarizeWithProvider(
   return parseSummaryJson(content).filter((summary) => allowedRepos.has(summary.repo))
 }
 
+// 兼容提取被 Markdown 代码块包裹或嵌套在对象字段中的 JSON 摘要数组
 function parseSummaryJson(content: string): ProjectSummary[] {
   const cleaned = content.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '')
   let parsed: unknown

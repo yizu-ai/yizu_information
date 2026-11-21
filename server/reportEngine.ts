@@ -1,3 +1,4 @@
+// 项目打分与排序引擎：结合用户画像赛道匹配度、GitHub 热度与历史反馈权重对项目进行排序
 import type { FeedbackMap, RankedProject, TrendingProject, UserProfile } from './types'
 
 const feedbackWeight = {
@@ -6,6 +7,7 @@ const feedbackWeight = {
   irrelevant: -260,
 } as const
 
+// 过滤已忽略/不相关项目并按综合得分降序排列
 export function rankProjects(
   projects: TrendingProject[],
   profile: UserProfile,
@@ -23,6 +25,7 @@ export function rankProjects(
   return typeof limit === 'number' ? ranked.slice(0, limit) : ranked
 }
 
+// 计算单个项目的赛道命中、热度分与历史反馈加权分
 export function scoreProject(
   project: TrendingProject,
   profile: UserProfile,

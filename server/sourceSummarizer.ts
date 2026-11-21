@@ -1,3 +1,4 @@
+// 多源内容摘要器：结合个人上下文调用大模型生成有序内容要点与运用建议，失败时回退至本地规则摘要
 import { readPersonalContext } from './personalContext'
 import { readRawSettings } from './storage'
 import type { SourceItem } from './types'
@@ -26,6 +27,7 @@ type ProviderResponse = {
   }>
 }
 
+// 批量生成信息源条目的内容摘要与运用建议（无 API 配置或异常时降级为本地摘要）
 export async function summarizeSourceItems(
   inputs: SummaryInput[],
   options: { sourceName: string; dataDir?: string },

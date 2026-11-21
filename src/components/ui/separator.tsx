@@ -1,3 +1,4 @@
+// 通用分割线组件（shadcn/ui）：基于 Radix Separator 支持水平与垂直方向分隔
 import * as React from "react"
 import { Separator as SeparatorPrimitive } from "radix-ui"
 

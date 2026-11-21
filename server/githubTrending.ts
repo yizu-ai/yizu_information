@@ -1,3 +1,4 @@
+// GitHub Trending 抓取与仓库详情补全模块（Windows 下 fetch 异常时自动回退至 PowerShell 请求）
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 
@@ -8,6 +9,7 @@ import type { TrendingProject } from './types'
 const defaultTrendingUrl = 'https://github.com/trending?since=daily'
 const execFileAsync = promisify(execFile)
 
+// 抓取 GitHub Trending 页面并解析项目列表
 export async function fetchTrendingProjects(url = defaultTrendingUrl): Promise<TrendingProject[]> {
   try {
     const response = await fetch(url, {
@@ -31,6 +33,7 @@ export async function fetchTrendingProjects(url = defaultTrendingUrl): Promise<T
   }
 }
 
+// 并发调用 GitHub API 补全每个仓库的主页、主题标签、更新时间与 README 摘录
 export async function enrichRepositoryDetails(projects: TrendingProject[]): Promise<TrendingProject[]> {
   return Promise.all(
     projects.map(async (project) => {
@@ -180,6 +183,7 @@ async function fetchReadmeExcerpt(repo: string): Promise<string | undefined> {
   return extractReadmeExcerpt(markdown)
 }
 
+// 清洗 Markdown 标记并截取指定长度的 README 纯文本摘录
 export function extractReadmeExcerpt(markdown: string, maxLength = 1800): string {
   return markdown
     .replace(/```[\s\S]*?```/g, ' ')

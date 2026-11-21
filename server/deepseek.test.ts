@@ -1,3 +1,4 @@
+// 大模型摘要客户端单元测试：验证请求体携带完整仓库上下文并正确解析中文摘要输出
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { summarizeWithProvider } from './deepseek'

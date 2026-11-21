@@ -1,3 +1,4 @@
+// 通用按钮组件（shadcn/ui）：基于 CVA 定义按钮外观变体与尺寸规格
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"

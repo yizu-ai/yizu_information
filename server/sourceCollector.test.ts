@@ -1,3 +1,4 @@
+// 多源采集调度器单元测试：验证单源失败容错、当日幂等跳过与配置变更/异常报告自动重试
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

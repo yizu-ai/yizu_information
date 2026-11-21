@@ -1,3 +1,4 @@
+// 日报构建器单元测试：验证 Top 20 截断、本地中文降级摘要与有序要点生成
 import { describe, expect, it } from 'vitest'
 
 import { buildReport, summarizeLocally } from './reportGenerator'

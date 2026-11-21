@@ -1,3 +1,4 @@
+// 通用卡片容器组件（shadcn/ui）：包含 Card、CardHeader、CardTitle、CardDescription、CardAction、CardContent 与 CardFooter
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

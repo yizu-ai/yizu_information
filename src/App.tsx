@@ -1,3 +1,4 @@
+// 前端主应用：整合多信息源推荐池（生财有术/微信公众号/GitHub/X）、收藏夹、反馈评分笔记与系统设置弹窗
 import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowUpRight,
@@ -84,6 +85,7 @@ function App() {
   )
   const activeSourceLabel = sourceTabs.find((item) => item.key === activeSource)?.label ?? '信息源'
 
+  // 初始化并发拉取日报、各信息源引导数据、收藏列表与模型/信息源配置
   async function loadAll() {
     setIsLoading(true)
     setError(null)

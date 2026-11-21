@@ -1,3 +1,4 @@
+// 个人上下文加载模块：读取本地用户画像文件并查询 Gbrain 知识库，为信息源精华提炼提供个性化背景
 import { execFile } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { promisify } from 'node:util'

@@ -1,3 +1,4 @@
+// X（Twitter）信息源单元测试：验证按主题筛选高赞原创推文、参数边界归一化与错误文案提示
 import { describe, expect, it } from 'vitest'
 
 import { formatXApiError, normalizeXMaxResults, selectTopXPostsByTopic } from './xSource'

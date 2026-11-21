@@ -1,3 +1,4 @@
+// 本地存储层单元测试：覆盖反馈、笔记、评分持久化、收藏排序与 API 配置脱敏读取
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'

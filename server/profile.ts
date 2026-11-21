@@ -1,3 +1,4 @@
+// 默认用户关注画像配置：定义四个核心赛道及其关键词，用于项目打分与排序
 import type { UserProfile } from './types'
 
 export const defaultProfile: UserProfile = {

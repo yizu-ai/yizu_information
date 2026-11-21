@@ -1,3 +1,4 @@
+// 前端数据模型与接口响应类型定义：涵盖日报条目、多源报告、采集状态、收藏与配置结构
 export type FeedbackValue = 'favorite' | 'ignore' | 'irrelevant'
 export type SourceKey = 'shengcai' | 'wechat' | 'x' | 'github'
 
